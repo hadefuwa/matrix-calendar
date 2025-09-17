@@ -298,6 +298,8 @@ body::after {
     align-items: center;
     justify-content: center;
     min-height: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .booking-content {
@@ -313,6 +315,10 @@ body::after {
     border: 1px solid rgba(255, 255, 255, 0.3);
     overflow-y: auto;
     box-sizing: border-box;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .booking-content h1 {
@@ -327,8 +333,10 @@ body::after {
     display: flex;
     gap: clamp(15px, 4vw, 30px);
     justify-content: center;
+    align-items: center;
     margin-bottom: clamp(25px, 6vw, 50px);
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .booking-btn {
@@ -374,6 +382,10 @@ body::after {
 /* Room Selector */
 .room-selector {
     margin-bottom: clamp(25px, 6vw, 50px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .room-selector h3 {
@@ -417,11 +429,19 @@ body::after {
 }
 
 /* Countdown Section */
+.countdown-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .countdown-section h2 {
     font-size: clamp(1.4rem, 3.5vw, 1.8rem);
     margin-bottom: clamp(15px, 3vw, 20px);
     color: #1a1a1a;
     font-weight: 600;
+    text-align: center;
 }
 
 .countdown-display {
