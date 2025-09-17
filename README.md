@@ -14,7 +14,7 @@ A Progressive Web App (PWA) that displays multiple Outlook calendars in one conv
 ## 📱 Installation
 
 ### As a Web App
-1. Visit the live site: `https://yourusername.github.io/matrix-calendar`
+1. Visit the live site: `https://hadefuwa.github.io/matrix-calendar/`
 2. Click the "Install App" button when prompted
 3. The app will be added to your device's home screen
 

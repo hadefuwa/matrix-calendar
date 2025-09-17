@@ -26,49 +26,59 @@
             <p>Loading calendars...</p>
         </div>
 
-        <!-- Calendar Container -->
-        <main class="calendar-container" id="calendar-container" style="display: none;">
-            <!-- Calendar 1 -->
-            <div class="calendar-section">
-                <h2>Calendar 1</h2>
-                <div class="calendar-frame">
-                    <iframe 
-                        id="calendar1" 
-                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
-                        title="Outlook Calendar 1"
-                        frameborder="0"
-                        scrolling="no">
-                    </iframe>
-                </div>
-            </div>
+        <!-- Calendar Container - Simple Table Layout -->
+        <main id="calendar-container" style="display: none;">
+            <table class="calendar-table">
+                <tr>
+                    <!-- Calendar 1 -->
+                    <td class="calendar-cell">
+                        <div class="calendar-section">
+                            <h2>Calendar 1</h2>
+                            <div class="calendar-frame">
+                                <iframe 
+                                    id="calendar1" 
+                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    title="Outlook Calendar 1"
+                                    frameborder="0"
+                                    scrolling="no">
+                                </iframe>
+                            </div>
+                        </div>
+                    </td>
 
-            <!-- Calendar 2 -->
-            <div class="calendar-section">
-                <h2>Calendar 2</h2>
-                <div class="calendar-frame">
-                    <iframe 
-                        id="calendar2" 
-                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
-                        title="Outlook Calendar 2"
-                        frameborder="0"
-                        scrolling="no">
-                    </iframe>
-                </div>
-            </div>
+                    <!-- Calendar 2 -->
+                    <td class="calendar-cell">
+                        <div class="calendar-section">
+                            <h2>Calendar 2</h2>
+                            <div class="calendar-frame">
+                                <iframe 
+                                    id="calendar2" 
+                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    title="Outlook Calendar 2"
+                                    frameborder="0"
+                                    scrolling="no">
+                                </iframe>
+                            </div>
+                        </div>
+                    </td>
 
-            <!-- Calendar 3 -->
-            <div class="calendar-section">
-                <h2>Calendar 3</h2>
-                <div class="calendar-frame">
-                    <iframe 
-                        id="calendar3" 
-                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
-                        title="Outlook Calendar 3"
-                        frameborder="0"
-                        scrolling="no">
-                    </iframe>
-                </div>
-            </div>
+                    <!-- Calendar 3 -->
+                    <td class="calendar-cell">
+                        <div class="calendar-section">
+                            <h2>Calendar 3</h2>
+                            <div class="calendar-frame">
+                                <iframe 
+                                    id="calendar3" 
+                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    title="Outlook Calendar 3"
+                                    frameborder="0"
+                                    scrolling="no">
+                                </iframe>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </main>
 
         <!-- Error message -->

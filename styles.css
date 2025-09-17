@@ -41,12 +41,18 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Calendar container */
-.calendar-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+/* Calendar table layout */
+.calendar-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 20px;
     margin-top: 20px;
+}
+
+.calendar-cell {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0;
 }
 
 /* Individual calendar section */
@@ -171,15 +177,14 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Tablet and desktop - side by side layout */
+/* Desktop and tablet - side by side table layout */
 @media (min-width: 481px) {
     .app-container {
         padding: 25px;
     }
     
-    .calendar-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+    .calendar-table {
+        border-spacing: 20px;
     }
     
     .calendar-frame {
@@ -193,9 +198,8 @@ body {
         padding: 30px;
     }
     
-    .calendar-container {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
+    .calendar-table {
+        border-spacing: 30px;
     }
     
     .calendar-frame {
@@ -203,15 +207,27 @@ body {
     }
 }
 
-/* Mobile adjustments - only for very small screens */
+/* Mobile - stack calendars vertically */
 @media (max-width: 480px) {
     .app-container {
         padding: 15px;
     }
     
-    .calendar-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .calendar-table {
+        border-spacing: 10px;
+    }
+    
+    .calendar-cell {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .calendar-table,
+    .calendar-table tr,
+    .calendar-table td {
+        display: block;
+        width: 100%;
     }
     
     .calendar-frame {
