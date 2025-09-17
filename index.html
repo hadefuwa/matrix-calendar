@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Calendar - Outlook Calendars</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="View multiple Outlook calendars in one place">
+    <meta name="theme-color" content="#0078d4">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Matrix Calendar</h1>
+            <p>Multiple Outlook Calendars View</p>
+        </header>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading calendars...</p>
+        </div>
+
+        <!-- Calendar Container -->
+        <main class="calendar-container" id="calendar-container" style="display: none;">
+            <!-- Calendar 1 -->
+            <div class="calendar-section">
+                <h2>Calendar 1</h2>
+                <div class="calendar-frame">
+                    <iframe 
+                        id="calendar1" 
+                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                        title="Outlook Calendar 1"
+                        frameborder="0"
+                        scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Calendar 2 -->
+            <div class="calendar-section">
+                <h2>Calendar 2</h2>
+                <div class="calendar-frame">
+                    <iframe 
+                        id="calendar2" 
+                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                        title="Outlook Calendar 2"
+                        frameborder="0"
+                        scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Calendar 3 -->
+            <div class="calendar-section">
+                <h2>Calendar 3</h2>
+                <div class="calendar-frame">
+                    <iframe 
+                        id="calendar3" 
+                        src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                        title="Outlook Calendar 3"
+                        frameborder="0"
+                        scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+        </main>
+
+        <!-- Error message -->
+        <div id="error-message" class="error-message" style="display: none;">
+            <h2>Unable to load calendars</h2>
+            <p>Please check your internet connection and try refreshing the page.</p>
+            <button onclick="location.reload()" class="retry-button">Retry</button>
+        </div>
+
+        <!-- Install prompt -->
+        <div id="install-prompt" class="install-prompt" style="display: none;">
+            <p>Install this app for easier access!</p>
+            <button id="install-button" class="install-button">Install App</button>
+            <button id="dismiss-install" class="dismiss-button">×</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

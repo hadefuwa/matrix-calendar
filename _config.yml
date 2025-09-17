@@ -1,0 +1,38 @@
+# GitHub Pages configuration for Matrix Calendar PWA
+title: Matrix Calendar
+description: Progressive Web App for viewing multiple Outlook calendars
+baseurl: ""
+url: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - create-icons.html
+  - README.md
+  - .gitignore
+
+# Include files that start with underscore
+include:
+  - _config.yml
+
+# Plugin settings
+plugins:
+  - jekyll-sitemap
+
+# SEO settings
+lang: en
+author: Matrix Calendar
+twitter:
+  username: 
+  card: summary
+
+# PWA settings
+webmaster_verifications:
+  google: 
+  bing: 
+  alexa: 
+  yandex: 
+  baidu:
