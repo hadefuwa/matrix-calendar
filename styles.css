@@ -81,12 +81,24 @@ body {
 }
 
 .calendar-section h2 {
-    background: #0078d4;
     color: white;
     padding: 15px 20px;
     margin: 0;
     font-size: 1.3rem;
     font-weight: 500;
+}
+
+/* Different colors for each calendar header */
+.meeting-room h2 {
+    background: #0078d4; /* Microsoft Blue */
+}
+
+.training-room h2 {
+    background: #107c10; /* Microsoft Green */
+}
+
+.dev-room h2 {
+    background: #d83b01; /* Microsoft Orange */
 }
 
 /* Calendar frame - flexible height */
