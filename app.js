@@ -258,7 +258,7 @@ function initializeNavigation() {
     const navTabs = document.querySelectorAll('.nav-tab');
     const calendarContainer = document.getElementById('calendar-container');
     const bookingContainer = document.getElementById('booking-container');
-    const loadCalendarsBtn = document.getElementById('load-calendars-btn');
+    let calendarsLoaded = false;
     
     navTabs.forEach(function(tab) {
         tab.addEventListener('click', function() {
@@ -274,24 +274,21 @@ function initializeNavigation() {
             if (tabType === 'calendars') {
                 calendarContainer.style.display = 'flex';
                 bookingContainer.style.display = 'none';
+                
+                // Auto-load calendars when switching to calendar tab (only once)
+                if (!calendarsLoaded) {
+                    loadCalendarsOnDemand();
+                    calendarsLoaded = true;
+                }
             } else if (tabType === 'booking') {
                 calendarContainer.style.display = 'none';
                 bookingContainer.style.display = 'block';
             }
         });
     });
-    
-    // Load calendars button functionality
-    if (loadCalendarsBtn) {
-        loadCalendarsBtn.addEventListener('click', function() {
-            loadCalendarsOnDemand();
-            loadCalendarsBtn.disabled = true;
-            loadCalendarsBtn.textContent = 'Loading...';
-        });
-    }
 }
 
-// Load calendars only when requested
+// Load calendars when switching to calendar tab
 function loadCalendarsOnDemand() {
     const calendars = [
         { id: 'calendar1', dataAttr: 'data-src' },
@@ -304,21 +301,8 @@ function loadCalendarsOnDemand() {
         if (iframe && iframe.getAttribute(cal.dataAttr)) {
             iframe.src = iframe.getAttribute(cal.dataAttr);
             iframe.removeAttribute(cal.dataAttr);
-            
-            // Remove placeholder
-            const placeholder = iframe.querySelector('.calendar-placeholder');
-            if (placeholder) {
-                placeholder.remove();
-            }
         }
     });
-    
-    setTimeout(function() {
-        const loadCalendarsBtn = document.getElementById('load-calendars-btn');
-        if (loadCalendarsBtn) {
-            loadCalendarsBtn.textContent = 'Calendars Loaded';
-        }
-    }, 2000);
 }
 
 // Booking functionality

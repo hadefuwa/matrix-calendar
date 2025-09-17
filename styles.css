@@ -229,49 +229,6 @@ body::after {
     flex-direction: column;
 }
 
-/* Calendar controls */
-.calendar-controls {
-    text-align: center;
-    padding: 20px;
-}
-
-.load-calendars-btn {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-}
-
-.load-calendars-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-}
-
-.load-calendars-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Calendar placeholder */
-.calendar-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    color: #666;
-    font-size: 1.1rem;
-    text-align: center;
-    border-radius: 5px;
-    margin: 10px;
-}
 
 .calendar-table {
     width: 100%;
