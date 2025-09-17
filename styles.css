@@ -66,8 +66,8 @@ body {
 /* Calendar container */
 .calendar-container {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     margin-top: 20px;
 }
 
@@ -200,8 +200,8 @@ body {
     }
     
     .calendar-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
     }
     
     .calendar-frame {
@@ -228,6 +228,11 @@ body {
 @media (max-width: 767px) {
     .app-container {
         padding: 15px;
+    }
+    
+    .calendar-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .app-header {
