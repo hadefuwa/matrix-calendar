@@ -121,6 +121,46 @@ body::after {
     height: 100vh;
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Navigation */
+.top-navigation {
+    background: rgba(30, 27, 75, 0.95);
+    border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+    padding: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+}
+
+.nav-tabs {
+    display: flex;
+    max-width: 100%;
+}
+
+.nav-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover {
+    color: #fff;
+    background: rgba(139, 92, 246, 0.2);
+}
+
+.nav-tab.active {
+    color: #fff;
+    background: rgba(139, 92, 246, 0.3);
+    border-bottom-color: #a855f7;
 }
 
 /* Glowing Matrix logo at bottom */
@@ -180,14 +220,20 @@ body::after {
     100% { transform: rotate(360deg); }
 }
 
-/* Calendar table layout - full height */
+/* Calendar table layout - flex height */
+#calendar-container {
+    flex: 1;
+    overflow: hidden;
+    padding: 10px;
+}
+
 .calendar-table {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     border-collapse: separate;
     border-spacing: 10px;
     margin: 0;
-    padding: 10px;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -238,6 +284,156 @@ body::after {
 
 .dev-room h2 {
     background: #d83b01; /* Microsoft Orange */
+}
+
+/* Booking Container */
+.booking-container {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.booking-content {
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+.booking-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, #a855f7, #c084fc, #e879f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.booking-content p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 40px;
+}
+
+/* Booking Buttons */
+.booking-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.booking-btn {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 30px 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+}
+
+.booking-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
+}
+
+.booking-btn:active {
+    transform: translateY(-2px);
+}
+
+.btn-time {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.btn-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Room Selector */
+.room-selector {
+    margin-bottom: 50px;
+}
+
+.room-selector h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #c084fc;
+}
+
+.room-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.room-btn {
+    background: rgba(30, 27, 75, 0.8);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 10px;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.room-btn:hover {
+    border-color: rgba(139, 92, 246, 0.6);
+    background: rgba(139, 92, 246, 0.2);
+}
+
+.room-btn.active {
+    background: rgba(139, 92, 246, 0.4);
+    border-color: #a855f7;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Countdown Section */
+.countdown-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #ddd6fe;
+}
+
+.countdown-display {
+    background: rgba(30, 27, 75, 0.6);
+    border: 2px solid rgba(139, 92, 246, 0.4);
+    border-radius: 15px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.countdown-time {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #a855f7;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+    font-family: 'Courier New', monospace;
+}
+
+.countdown-label {
+    font-size: 1.2rem;
+    color: #c084fc;
+}
+
+#selected-room-name {
+    color: #e879f9;
+    font-weight: bold;
 }
 
 /* Calendar frame - flexible height */

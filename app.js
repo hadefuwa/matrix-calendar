@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the app
     initializeApp();
+    
+    // Initialize navigation
+    initializeNavigation();
+    
+    // Initialize booking functionality
+    initializeBooking();
 });
 
 // Main function to start the app
@@ -239,5 +245,137 @@ document.addEventListener('visibilitychange', function() {
         // You could refresh calendars here if needed
     }
 });
+
+// Navigation functionality
+function initializeNavigation() {
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const calendarContainer = document.getElementById('calendar-container');
+    const bookingContainer = document.getElementById('booking-container');
+    
+    navTabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            const tabType = tab.getAttribute('data-tab');
+            
+            // Remove active class from all tabs
+            navTabs.forEach(function(t) { t.classList.remove('active'); });
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Show/hide containers
+            if (tabType === 'calendars') {
+                calendarContainer.style.display = 'block';
+                bookingContainer.style.display = 'none';
+            } else if (tabType === 'booking') {
+                calendarContainer.style.display = 'none';
+                bookingContainer.style.display = 'block';
+            }
+        });
+    });
+}
+
+// Booking functionality
+function initializeBooking() {
+    const bookingButtons = document.querySelectorAll('.booking-btn');
+    const roomButtons = document.querySelectorAll('.room-btn');
+    let selectedRoom = 'meeting';
+    let countdownInterval;
+    
+    // Handle booking button clicks
+    bookingButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const duration = parseInt(button.getAttribute('data-duration'));
+            bookRoom(selectedRoom, duration);
+        });
+    });
+    
+    // Handle room selection
+    roomButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            roomButtons.forEach(function(btn) { btn.classList.remove('active'); });
+            button.classList.add('active');
+            
+            selectedRoom = button.getAttribute('data-room');
+            updateSelectedRoomName(selectedRoom);
+        });
+    });
+    
+    // Start countdown timer
+    startCountdownTimer();
+}
+
+function bookRoom(room, duration) {
+    const roomNames = {
+        'meeting': 'Meeting Room',
+        'training': 'Training Room',
+        'dev': 'Dev Room'
+    };
+    
+    const roomName = roomNames[room];
+    const endTime = new Date(Date.now() + (duration * 60 * 1000));
+    
+    // Show booking confirmation
+    alert('Booked ' + roomName + ' for ' + duration + ' minutes until ' + endTime.toLocaleTimeString());
+    
+    // Update countdown with new booking
+    updateCountdownWithBooking(endTime);
+}
+
+function updateSelectedRoomName(room) {
+    const roomNames = {
+        'meeting': 'Meeting Room',
+        'training': 'Training Room',
+        'dev': 'Dev Room'
+    };
+    
+    const selectedRoomNameElement = document.getElementById('selected-room-name');
+    if (selectedRoomNameElement) {
+        selectedRoomNameElement.textContent = roomNames[room];
+    }
+}
+
+function startCountdownTimer() {
+    // Default to next hour for demo
+    const nextHour = new Date();
+    nextHour.setHours(nextHour.getHours() + 1);
+    nextHour.setMinutes(0);
+    nextHour.setSeconds(0);
+    
+    updateCountdownDisplay(nextHour);
+    
+    countdownInterval = setInterval(function() {
+        updateCountdownDisplay(nextHour);
+    }, 1000);
+}
+
+function updateCountdownWithBooking(endTime) {
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+    
+    countdownInterval = setInterval(function() {
+        updateCountdownDisplay(endTime);
+    }, 1000);
+}
+
+function updateCountdownDisplay(targetTime) {
+    const now = new Date();
+    const timeDiff = targetTime - now;
+    
+    if (timeDiff <= 0) {
+        document.getElementById('countdown-hours').textContent = '00';
+        document.getElementById('countdown-minutes').textContent = '00';
+        document.getElementById('countdown-seconds').textContent = '00';
+        return;
+    }
+    
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    
+    document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+}
 
 console.log('App JavaScript loaded successfully');

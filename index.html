@@ -20,6 +20,14 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- Top Navigation -->
+        <nav class="top-navigation">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="calendars">Calendars</button>
+                <button class="nav-tab" data-tab="booking">Booking</button>
+            </div>
+        </nav>
+
         <!-- Loading indicator -->
         <div id="loading" class="loading">
             <div class="spinner"></div>
@@ -79,6 +87,50 @@
                     </td>
                 </tr>
             </table>
+        </main>
+
+        <!-- Booking Container -->
+        <main id="booking-container" class="booking-container" style="display: none;">
+            <div class="booking-content">
+                <h1>Quick Room Booking</h1>
+                <p>Book any room for immediate use</p>
+                
+                <div class="booking-buttons">
+                    <button class="booking-btn" data-duration="30">
+                        <span class="btn-time">+30</span>
+                        <span class="btn-label">mins</span>
+                    </button>
+                    <button class="booking-btn" data-duration="60">
+                        <span class="btn-time">+1</span>
+                        <span class="btn-label">hr</span>
+                    </button>
+                    <button class="booking-btn" data-duration="120">
+                        <span class="btn-time">+2</span>
+                        <span class="btn-label">hrs</span>
+                    </button>
+                </div>
+
+                <div class="room-selector">
+                    <h3>Select Room:</h3>
+                    <div class="room-buttons">
+                        <button class="room-btn active" data-room="meeting">Meeting Room</button>
+                        <button class="room-btn" data-room="training">Training Room</button>
+                        <button class="room-btn" data-room="dev">Dev Room</button>
+                    </div>
+                </div>
+
+                <div class="countdown-section">
+                    <h2>Next Available:</h2>
+                    <div class="countdown-display">
+                        <div class="countdown-time">
+                            <span id="countdown-hours">00</span>:
+                            <span id="countdown-minutes">00</span>:
+                            <span id="countdown-seconds">00</span>
+                        </div>
+                        <div class="countdown-label">Until <span id="selected-room-name">Meeting Room</span> is free</div>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <!-- Error message -->
