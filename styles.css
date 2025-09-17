@@ -7,7 +7,11 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #2d2d30;
+    background: 
+        radial-gradient(ellipse at top, #1e1b4b 0%, #312e81 30%, #1e1b4b 70%, #0f0f23 100%),
+        linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #6366f1 50%, #8b5cf6 75%, #1e1b4b 100%);
+    background-size: 100% 100%, 400% 400%;
+    animation: galaxyShift 20s ease-in-out infinite;
     color: #fff;
     line-height: 1.6;
     margin: 0;
@@ -16,55 +20,72 @@ body {
     position: relative;
 }
 
-/* Rolling diagonal tiled logo background - much smaller logos */
+/* Galaxy background animation */
+@keyframes galaxyShift {
+    0%, 100% { 
+        background-position: 0% 50%, 0% 50%; 
+    }
+    50% { 
+        background-position: 0% 50%, 100% 50%; 
+    }
+}
+
+/* Shooting stars */
 body::before {
     content: '';
     position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: url('assets/matrix-logo.png') repeat;
-    background-size: 80px 80px;
-    opacity: 0.20;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
     z-index: -1;
-    animation: rollingDiagonal 30s linear infinite;
-    transform: rotate(45deg);
-    filter: contrast(1.2) brightness(1.1);
+    animation: shootingStars 3s linear infinite;
 }
 
-/* Secondary rolling pattern with smaller logos */
+/* Multiple shooting star layers */
 body::after {
     content: '';
     position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: url('assets/matrix-logo.png') repeat;
-    background-size: 60px 60px;
-    opacity: 0.12;
-    z-index: -2;
-    animation: rollingDiagonalReverse 40s linear infinite;
-    transform: rotate(-45deg);
-    filter: contrast(1.1) brightness(1.05);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #8b5cf6, transparent),
+        radial-gradient(1px 1px at 90px 40px, #6366f1, transparent),
+        radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 160px 30px, #8b5cf6, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: shootingStarsMove 15s linear infinite;
+    z-index: -1;
 }
 
-@keyframes rollingDiagonal {
+@keyframes shootingStars {
     0% { 
-        transform: rotate(45deg) translate(0, 0);
+        transform: translateX(-100px) translateY(-100px); 
+        opacity: 0;
+    }
+    10% { 
+        opacity: 1;
+    }
+    90% { 
+        opacity: 1;
     }
     100% { 
-        transform: rotate(45deg) translate(-80px, -80px);
+        transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)); 
+        opacity: 0;
     }
 }
 
-@keyframes rollingDiagonalReverse {
+@keyframes shootingStarsMove {
     0% { 
-        transform: rotate(-45deg) translate(0, 0);
+        transform: translate(0, 0);
     }
     100% { 
-        transform: rotate(-45deg) translate(60px, 60px);
+        transform: translate(-200px, -100px);
     }
 }
 
@@ -75,6 +96,22 @@ body::after {
     padding: 0;
     height: 100vh;
     overflow: hidden;
+    position: relative;
+}
+
+/* Stationary Matrix logo at bottom */
+.app-container::after {
+    content: '';
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    height: 120px;
+    background: url('assets/matrix-logo.png') center center no-repeat;
+    background-size: contain;
+    opacity: 0.3;
+    z-index: 1000;
+    pointer-events: none;
 }
 
 /* Loading spinner - dark theme */
@@ -117,25 +154,25 @@ body::after {
     padding: 0;
 }
 
-/* Individual calendar section - more transparent for logo visibility */
+/* Individual calendar section - galaxy theme */
 .calendar-section {
-    background: rgba(45, 45, 48, 0.90);
+    background: rgba(30, 27, 75, 0.85);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, border-color 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(2px);
 }
 
 .calendar-section:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
-    background: rgba(50, 50, 50, 0.98);
-    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 15px rgba(139, 92, 246, 0.2);
+    background: rgba(30, 27, 75, 0.95);
+    border-color: rgba(139, 92, 246, 0.5);
 }
 
 .calendar-section h2 {
