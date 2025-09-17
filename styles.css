@@ -8,10 +8,12 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: 
-        radial-gradient(ellipse at top, #1e1b4b 0%, #312e81 30%, #1e1b4b 70%, #0f0f23 100%),
-        linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #6366f1 50%, #8b5cf6 75%, #1e1b4b 100%);
-    background-size: 100% 100%, 400% 400%;
-    animation: galaxyShift 20s ease-in-out infinite;
+        radial-gradient(ellipse at top, #7c3aed 0%, #a855f7 20%, #c084fc 40%, #ddd6fe 60%, #7c3aed 80%, #4c1d95 100%),
+        radial-gradient(ellipse at bottom right, #6366f1 0%, #8b5cf6 30%, #a855f7 60%, #c084fc 100%),
+        linear-gradient(45deg, #4c1d95 0%, #7c3aed 25%, #a855f7 50%, #c084fc 75%, #ddd6fe 100%),
+        linear-gradient(-45deg, #6366f1 0%, #8b5cf6 25%, #a855f7 50%, #c084fc 75%, #e879f9 100%);
+    background-size: 300% 300%, 250% 250%, 400% 400%, 350% 350%;
+    animation: galaxyShift 15s ease-in-out infinite, galaxyPulse 8s ease-in-out infinite alternate;
     color: #fff;
     line-height: 1.6;
     margin: 0;
@@ -20,13 +22,31 @@ body {
     position: relative;
 }
 
-/* Galaxy background animation */
+/* Galaxy background animations */
 @keyframes galaxyShift {
-    0%, 100% { 
-        background-position: 0% 50%, 0% 50%; 
+    0% { 
+        background-position: 0% 50%, 0% 0%, 0% 0%, 100% 100%; 
+    }
+    25% { 
+        background-position: 100% 50%, 50% 50%, 25% 25%, 75% 25%; 
     }
     50% { 
-        background-position: 0% 50%, 100% 50%; 
+        background-position: 50% 100%, 100% 100%, 50% 50%, 25% 75%; 
+    }
+    75% { 
+        background-position: 25% 25%, 25% 75%, 75% 75%, 50% 0%; 
+    }
+    100% { 
+        background-position: 0% 50%, 0% 0%, 0% 0%, 100% 100%; 
+    }
+}
+
+@keyframes galaxyPulse {
+    0% {
+        filter: brightness(1) contrast(1) saturate(1.2);
+    }
+    100% {
+        filter: brightness(1.3) contrast(1.2) saturate(1.5);
     }
 }
 
@@ -43,7 +63,7 @@ body::before {
     animation: shootingStars 3s linear infinite;
 }
 
-/* Multiple shooting star layers */
+/* Enhanced shooting star layers */
 body::after {
     content: '';
     position: fixed;
@@ -52,15 +72,19 @@ body::after {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-        radial-gradient(2px 2px at 40px 70px, #8b5cf6, transparent),
-        radial-gradient(1px 1px at 90px 40px, #6366f1, transparent),
-        radial-gradient(1px 1px at 130px 80px, #fff, transparent),
-        radial-gradient(2px 2px at 160px 30px, #8b5cf6, transparent);
+        radial-gradient(3px 3px at 20px 30px, #ffffff, transparent),
+        radial-gradient(4px 4px at 40px 70px, #a855f7, transparent),
+        radial-gradient(2px 2px at 90px 40px, #c084fc, transparent),
+        radial-gradient(3px 3px at 130px 80px, #ddd6fe, transparent),
+        radial-gradient(4px 4px at 160px 30px, #e879f9, transparent),
+        radial-gradient(2px 2px at 60px 120px, #ffffff, transparent),
+        radial-gradient(3px 3px at 180px 60px, #7c3aed, transparent),
+        radial-gradient(2px 2px at 10px 90px, #c084fc, transparent);
     background-repeat: repeat;
     background-size: 200px 100px;
-    animation: shootingStarsMove 15s linear infinite;
+    animation: shootingStarsMove 12s linear infinite;
     z-index: -1;
+    opacity: 0.9;
 }
 
 @keyframes shootingStars {
@@ -99,19 +123,39 @@ body::after {
     position: relative;
 }
 
-/* Stationary Matrix logo at bottom */
+/* Glowing Matrix logo at bottom */
 .app-container::after {
     content: '';
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     background: url('assets/matrix-logo.png') center center no-repeat;
     background-size: contain;
-    opacity: 0.3;
+    opacity: 1;
     z-index: 1000;
     pointer-events: none;
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)) 
+            drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))
+            drop-shadow(0 0 60px rgba(139, 92, 246, 0.4));
+    animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logoGlow {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)) 
+                drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))
+                drop-shadow(0 0 60px rgba(139, 92, 246, 0.4));
+        transform: scale(1);
+    }
+    100% {
+        filter: drop-shadow(0 0 30px rgba(139, 92, 246, 1)) 
+                drop-shadow(0 0 60px rgba(255, 255, 255, 0.9))
+                drop-shadow(0 0 90px rgba(139, 92, 246, 0.6))
+                drop-shadow(0 0 120px rgba(147, 51, 234, 0.4));
+        transform: scale(1.05);
+    }
 }
 
 /* Loading spinner - dark theme */
