@@ -171,23 +171,28 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive design */
-@media (min-width: 768px) {
+/* Tablet and desktop - side by side layout */
+@media (min-width: 481px) {
     .app-container {
-        padding: 30px;
+        padding: 25px;
     }
     
     .calendar-container {
         grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
+        gap: 20px;
     }
     
     .calendar-frame {
-        height: 700px;
+        height: 600px;
     }
 }
 
+/* Large desktop - bigger calendars */
 @media (min-width: 1200px) {
+    .app-container {
+        padding: 30px;
+    }
+    
     .calendar-container {
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
@@ -196,11 +201,10 @@ body {
     .calendar-frame {
         height: 800px;
     }
-    
 }
 
-/* Mobile adjustments */
-@media (max-width: 767px) {
+/* Mobile adjustments - only for very small screens */
+@media (max-width: 480px) {
     .app-container {
         padding: 15px;
     }
@@ -210,9 +214,8 @@ body {
         gap: 20px;
     }
     
-    
     .calendar-frame {
-        height: 500px;
+        height: 400px;
     }
     
     .install-prompt {
