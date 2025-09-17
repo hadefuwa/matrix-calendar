@@ -360,15 +360,9 @@ body::after {
 
 .booking-content h1 {
     font-size: clamp(2rem, 6vw, 3rem);
-    margin-bottom: 10px;
+    margin-bottom: clamp(15px, 4vw, 30px);
     color: #1a1a1a;
     font-weight: bold;
-}
-
-.booking-content p {
-    font-size: clamp(1rem, 3vw, 1.2rem);
-    color: #444;
-    margin-bottom: clamp(20px, 5vw, 40px);
 }
 
 /* Booking Buttons */
