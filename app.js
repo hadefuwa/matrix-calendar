@@ -22,8 +22,9 @@ function initializeApp() {
     // Set up PWA features
     setupPWA();
     
-    // Show calendars container by default (but don't load calendar content)
+    // Show calendars container by default and load calendars since it's the default tab
     showCalendarsContainer();
+    loadCalendarsOnDemand();
     
     // Set up install prompt
     setupInstallPrompt();
@@ -258,7 +259,6 @@ function initializeNavigation() {
     const navTabs = document.querySelectorAll('.nav-tab');
     const calendarContainer = document.getElementById('calendar-container');
     const bookingContainer = document.getElementById('booking-container');
-    let calendarsLoaded = false;
     
     navTabs.forEach(function(tab) {
         tab.addEventListener('click', function() {
@@ -274,12 +274,6 @@ function initializeNavigation() {
             if (tabType === 'calendars') {
                 calendarContainer.style.display = 'flex';
                 bookingContainer.style.display = 'none';
-                
-                // Auto-load calendars when switching to calendar tab (only once)
-                if (!calendarsLoaded) {
-                    loadCalendarsOnDemand();
-                    calendarsLoaded = true;
-                }
             } else if (tabType === 'booking') {
                 calendarContainer.style.display = 'none';
                 bookingContainer.style.display = 'block';
@@ -290,6 +284,7 @@ function initializeNavigation() {
 
 // Load calendars when switching to calendar tab
 function loadCalendarsOnDemand() {
+    console.log('Loading calendars on demand...');
     const calendars = [
         { id: 'calendar1', dataAttr: 'data-src' },
         { id: 'calendar2', dataAttr: 'data-src' },
@@ -299,8 +294,12 @@ function loadCalendarsOnDemand() {
     calendars.forEach(function(cal) {
         const iframe = document.getElementById(cal.id);
         if (iframe && iframe.getAttribute(cal.dataAttr)) {
-            iframe.src = iframe.getAttribute(cal.dataAttr);
+            const src = iframe.getAttribute(cal.dataAttr);
+            console.log('Loading calendar:', cal.id, 'with src:', src);
+            iframe.src = src;
             iframe.removeAttribute(cal.dataAttr);
+        } else {
+            console.log('Calendar iframe not found or already loaded:', cal.id);
         }
     });
 }
