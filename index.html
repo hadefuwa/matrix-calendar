@@ -36,6 +36,9 @@
 
         <!-- Calendar Container - Simple Table Layout -->
         <main id="calendar-container" style="display: none;">
+            <div class="calendar-controls">
+                <button id="load-calendars-btn" class="load-calendars-btn">Load Calendars</button>
+            </div>
             <table class="calendar-table">
                 <tr>
                     <!-- Meeting Room -->
@@ -45,10 +48,13 @@
                             <div class="calendar-frame">
                                 <iframe 
                                     id="calendar1" 
-                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    data-src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
                                     title="Meeting Room Calendar"
                                     frameborder="0"
                                     scrolling="no">
+                                    <div class="calendar-placeholder">
+                                        <p>Click "Load Calendars" to view Meeting Room calendar</p>
+                                    </div>
                                 </iframe>
                             </div>
                         </div>
@@ -61,10 +67,13 @@
                             <div class="calendar-frame">
                                 <iframe 
                                     id="calendar2" 
-                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    data-src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
                                     title="Training Room Calendar"
                                     frameborder="0"
                                     scrolling="no">
+                                    <div class="calendar-placeholder">
+                                        <p>Click "Load Calendars" to view Training Room calendar</p>
+                                    </div>
                                 </iframe>
                             </div>
                         </div>
@@ -77,10 +86,13 @@
                             <div class="calendar-frame">
                                 <iframe 
                                     id="calendar3" 
-                                    src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
+                                    data-src="https://outlook.office365.com/calendar/published/dbb6542099094ad7b9b68ce0d1d9d528@matrixtsl.com/b5516e4d9db1437aae6358f91c5f35c213795758718651646753/calendar.html"
                                     title="Dev Room Calendar"
                                     frameborder="0"
                                     scrolling="no">
+                                    <div class="calendar-placeholder">
+                                        <p>Click "Load Calendars" to view Dev Room calendar</p>
+                                    </div>
                                 </iframe>
                             </div>
                         </div>

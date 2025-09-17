@@ -16,16 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Main function to start the app
 function initializeApp() {
-    // Show loading indicator
-    showLoading();
+    // Hide loading indicator immediately
+    hideLoading();
     
     // Set up PWA features
     setupPWA();
     
-    // Load calendars after a short delay to show loading
-    setTimeout(function() {
-        loadCalendars();
-    }, 1500);
+    // Show calendars container by default (but don't load calendar content)
+    showCalendarsContainer();
     
     // Set up install prompt
     setupInstallPrompt();
@@ -48,17 +46,26 @@ function showLoading() {
     }
 }
 
-// Hide loading and show calendars
-function showCalendars() {
+// Hide loading indicator
+function hideLoading() {
     const loadingElement = document.getElementById('loading');
-    const calendarContainer = document.getElementById('calendar-container');
-    
     if (loadingElement) {
         loadingElement.style.display = 'none';
     }
+}
+
+// Show calendars container (but don't load calendar content)
+function showCalendarsContainer() {
+    const calendarContainer = document.getElementById('calendar-container');
     if (calendarContainer) {
-        calendarContainer.style.display = 'block';
+        calendarContainer.style.display = 'flex';
     }
+}
+
+// Hide loading and show calendars (legacy function for compatibility)
+function showCalendars() {
+    hideLoading();
+    showCalendarsContainer();
 }
 
 // Show error message
@@ -251,6 +258,7 @@ function initializeNavigation() {
     const navTabs = document.querySelectorAll('.nav-tab');
     const calendarContainer = document.getElementById('calendar-container');
     const bookingContainer = document.getElementById('booking-container');
+    const loadCalendarsBtn = document.getElementById('load-calendars-btn');
     
     navTabs.forEach(function(tab) {
         tab.addEventListener('click', function() {
@@ -264,7 +272,7 @@ function initializeNavigation() {
             
             // Show/hide containers
             if (tabType === 'calendars') {
-                calendarContainer.style.display = 'block';
+                calendarContainer.style.display = 'flex';
                 bookingContainer.style.display = 'none';
             } else if (tabType === 'booking') {
                 calendarContainer.style.display = 'none';
@@ -272,6 +280,45 @@ function initializeNavigation() {
             }
         });
     });
+    
+    // Load calendars button functionality
+    if (loadCalendarsBtn) {
+        loadCalendarsBtn.addEventListener('click', function() {
+            loadCalendarsOnDemand();
+            loadCalendarsBtn.disabled = true;
+            loadCalendarsBtn.textContent = 'Loading...';
+        });
+    }
+}
+
+// Load calendars only when requested
+function loadCalendarsOnDemand() {
+    const calendars = [
+        { id: 'calendar1', dataAttr: 'data-src' },
+        { id: 'calendar2', dataAttr: 'data-src' },
+        { id: 'calendar3', dataAttr: 'data-src' }
+    ];
+    
+    calendars.forEach(function(cal) {
+        const iframe = document.getElementById(cal.id);
+        if (iframe && iframe.getAttribute(cal.dataAttr)) {
+            iframe.src = iframe.getAttribute(cal.dataAttr);
+            iframe.removeAttribute(cal.dataAttr);
+            
+            // Remove placeholder
+            const placeholder = iframe.querySelector('.calendar-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+        }
+    });
+    
+    setTimeout(function() {
+        const loadCalendarsBtn = document.getElementById('load-calendars-btn');
+        if (loadCalendarsBtn) {
+            loadCalendarsBtn.textContent = 'Calendars Loaded';
+        }
+    }, 2000);
 }
 
 // Booking functionality
