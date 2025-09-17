@@ -220,24 +220,26 @@ body::after {
     100% { transform: rotate(360deg); }
 }
 
-/* Calendar table layout - flex height */
+/* Calendar table layout - proper height distribution */
 #calendar-container {
     flex: 1;
     overflow: hidden;
     padding: 10px;
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 60px);
+    min-height: 0;
 }
-
 
 .calendar-table {
     width: 100%;
-    flex: 1;
+    height: 100%;
     border-collapse: separate;
     border-spacing: 10px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    table-layout: fixed;
 }
 
 .calendar-cell {
@@ -247,7 +249,7 @@ body::after {
     padding: 0;
 }
 
-/* Individual calendar section - galaxy theme */
+/* Individual calendar section - galaxy theme with proper height */
 .calendar-section {
     background: rgba(30, 27, 75, 0.85);
     border-radius: 10px;
@@ -255,7 +257,8 @@ body::after {
     border: 1px solid rgba(139, 92, 246, 0.3);
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, border-color 0.3s ease;
-    height: 100%;
+    height: calc(100vh - 100px);
+    min-height: 600px;
     display: flex;
     flex-direction: column;
     backdrop-filter: blur(2px);
