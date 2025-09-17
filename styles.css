@@ -16,7 +16,7 @@ body {
     position: relative;
 }
 
-/* Rolling diagonal tiled logo background - better visibility */
+/* Rolling diagonal tiled logo background - much smaller logos */
 body::before {
     content: '';
     position: fixed;
@@ -25,15 +25,15 @@ body::before {
     width: 200%;
     height: 200%;
     background: url('assets/matrix-logo.png') repeat;
-    background-size: 300px 300px;
-    opacity: 0.25;
+    background-size: 80px 80px;
+    opacity: 0.20;
     z-index: -1;
     animation: rollingDiagonal 30s linear infinite;
     transform: rotate(45deg);
     filter: contrast(1.2) brightness(1.1);
 }
 
-/* Secondary rolling pattern with different spacing */
+/* Secondary rolling pattern with smaller logos */
 body::after {
     content: '';
     position: fixed;
@@ -42,8 +42,8 @@ body::after {
     width: 200%;
     height: 200%;
     background: url('assets/matrix-logo.png') repeat;
-    background-size: 250px 250px;
-    opacity: 0.15;
+    background-size: 60px 60px;
+    opacity: 0.12;
     z-index: -2;
     animation: rollingDiagonalReverse 40s linear infinite;
     transform: rotate(-45deg);
@@ -55,7 +55,7 @@ body::after {
         transform: rotate(45deg) translate(0, 0);
     }
     100% { 
-        transform: rotate(45deg) translate(-300px, -300px);
+        transform: rotate(45deg) translate(-80px, -80px);
     }
 }
 
@@ -64,7 +64,7 @@ body::after {
         transform: rotate(-45deg) translate(0, 0);
     }
     100% { 
-        transform: rotate(-45deg) translate(250px, 250px);
+        transform: rotate(-45deg) translate(60px, 60px);
     }
 }
 
