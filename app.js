@@ -10,148 +10,132 @@ if (isElectron) {
     console.log('Running in Electron');
 }
 
+// Configuration for web endpoint
+const CONFIG = {
+    // GitHub Gist URL for calendar data
+    dataEndpoint: 'https://gist.githubusercontent.com/hadefuwa/627f54c72d2eeea07abb4f882c69434a/raw/f9d31fa607d84d7e6ae384238b50ebd6f0c1603d/matrix-calendar-data.json',
+    refreshInterval: 5 * 60 * 1000 // 5 minutes
+};
+
 // Start the app when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Matrix Calendar starting...');
-    setupImportButtons();
+    console.log('Matrix Calendar starting - Live sync only mode...');
+    setupSyncButtons();
+    
+    // Load live data on startup
+    loadLiveData();
+    
+    // Set up auto-refresh every 5 minutes
+    setInterval(loadLiveData, CONFIG.refreshInterval);
 });
 
-// Set up import button functionality
-function setupImportButtons() {
-    const importButtons = document.querySelectorAll('.import-btn');
+// Live sync only - no import functionality needed
+
+// Set up sync button functionality
+function setupSyncButtons() {
+    const syncButtons = document.querySelectorAll('.sync-btn');
     
-    importButtons.forEach(function(button) {
+    syncButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             const roomType = button.getAttribute('data-room');
-            importCalendar(roomType);
+            syncLiveData(roomType);
         });
     });
 }
 
-// Import calendar for a room
-async function importCalendar(roomType) {
-    console.log('Importing calendar for:', roomType);
-    
-    const button = document.querySelector(`[data-room="${roomType}"]`);
-    const originalText = button.textContent;
-    
-    // Show loading state
-    button.textContent = 'Importing...';
-    button.disabled = true;
+// Load live data from web endpoint
+async function loadLiveData() {
+    console.log('Loading live calendar data...');
     
     try {
-        if (isElectron && ipcRenderer) {
-            // Use Electron file picker
-            const result = await ipcRenderer.invoke('import-calendar-file');
-            
-            if (result && result.content) {
-                const events = parseICSFile(result.content);
-                displayEvents(roomType, events, result.fileName);
-                
-                button.textContent = '✅ Imported';
-                button.style.backgroundColor = '#4CAF50';
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                    button.style.backgroundColor = '';
-                }, 3000);
-            } else {
-                // User cancelled or error
+        const response = await fetch(CONFIG.dataEndpoint);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('Live data loaded:', data);
+        
+        // Update both rooms with live data
+        if (data.meetingRoom) {
+            displayLiveEvents('meeting', data.meetingRoom, data.lastUpdated);
+        }
+        if (data.trainingRoom) {
+            displayLiveEvents('training', data.trainingRoom, data.lastUpdated);
+        }
+        
+        // Update sync button states
+        updateSyncButtonStates('success');
+        
+    } catch (error) {
+        console.error('Failed to load live data:', error);
+        updateSyncButtonStates('error');
+        
+        // Show helpful message for first-time setup
+        if (CONFIG.dataEndpoint.includes('YOUR_USERNAME')) {
+            showSetupMessage();
+        }
+    }
+}
+
+// Sync live data for specific room
+async function syncLiveData(roomType) {
+    console.log('Syncing live data for room:', roomType);
+    
+    const button = document.querySelector(`.sync-btn[data-room="${roomType}"]`);
+    if (button) {
+        const originalText = button.textContent;
+        button.textContent = '⏳ Syncing...';
+        button.disabled = true;
+    }
+    
+    try {
+        await loadLiveData();
+        
+        if (button) {
+            button.textContent = '✅ Synced';
+            setTimeout(() => {
                 button.textContent = originalText;
                 button.disabled = false;
-            }
-        } else {
-            // Web version - show instructions
-            alert('Please use the desktop version to import calendar files.');
-            button.textContent = originalText;
-            button.disabled = false;
+            }, 2000);
         }
         
     } catch (error) {
-        console.error('Import failed:', error);
-        alert('Import failed: ' + error.message);
-        button.textContent = originalText;
-        button.disabled = false;
-    }
-}
-
-// Simple ICS parser
-function parseICSFile(icsContent) {
-    const events = [];
-    const lines = icsContent.split('\n');
-    let currentEvent = null;
-    
-    for (let line of lines) {
-        line = line.trim();
-        
-        if (line === 'BEGIN:VEVENT') {
-            currentEvent = {};
-        } else if (line === 'END:VEVENT' && currentEvent) {
-            if (currentEvent.summary && currentEvent.dtstart) {
-                events.push(currentEvent);
-            }
-            currentEvent = null;
-        } else if (currentEvent) {
-            if (line.startsWith('SUMMARY:')) {
-                currentEvent.summary = line.substring(8);
-            } else if (line.startsWith('DTSTART')) {
-                const match = line.match(/DTSTART[^:]*:(.+)/);
-                if (match) {
-                    currentEvent.dtstart = parseICSDate(match[1]);
-                }
-            } else if (line.startsWith('DTEND')) {
-                const match = line.match(/DTEND[^:]*:(.+)/);
-                if (match) {
-                    currentEvent.dtend = parseICSDate(match[1]);
-                }
-            } else if (line.startsWith('LOCATION:')) {
-                currentEvent.location = line.substring(9);
-            }
+        if (button) {
+            button.textContent = '❌ Failed';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 2000);
         }
     }
-    
-    return events;
 }
 
-// Parse ICS date format
-function parseICSDate(icsDate) {
-    icsDate = icsDate.replace(/[TZ]/g, '');
-    
-    if (icsDate.length >= 8) {
-        const year = icsDate.substring(0, 4);
-        const month = icsDate.substring(4, 6);
-        const day = icsDate.substring(6, 8);
-        const hour = icsDate.substring(8, 10) || '00';
-        const minute = icsDate.substring(10, 12) || '00';
-        
-        return new Date(year, month - 1, day, hour, minute);
-    }
-    
-    return new Date();
-}
-
-// Display events for a room
-function displayEvents(roomType, events, fileName) {
+// Display live events from web endpoint
+function displayLiveEvents(roomType, events, lastUpdated) {
     const container = document.getElementById(roomType + '-calendar');
     if (!container) return;
     
-    // Sort events by date
-    events.sort((a, b) => a.dtstart - b.dtstart);
+    // Convert events to our format
+    const convertedEvents = events.map(event => ({
+        summary: event.title,
+        dtstart: new Date(event.start),
+        dtend: new Date(event.end),
+        location: event.location || ''
+    }));
     
     // Filter for next 7 days
     const today = new Date();
     const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const upcomingEvents = events.filter(event => 
+    const upcomingEvents = convertedEvents.filter(event => 
         event.dtstart >= today && event.dtstart <= nextWeek
     );
     
     // Create HTML
     let html = `
         <div class="file-info">
-            <strong>📁 ${fileName}</strong>
-            <span>${upcomingEvents.length} upcoming events</span>
+            <strong>🔄 Live Data</strong>
+            <span>Last updated: ${formatLastUpdated(lastUpdated)}</span>
         </div>
     `;
     
@@ -178,6 +162,69 @@ function displayEvents(roomType, events, fileName) {
     
     container.innerHTML = html;
 }
+
+// Update sync button states
+function updateSyncButtonStates(state) {
+    const syncButtons = document.querySelectorAll('.sync-btn');
+    
+    syncButtons.forEach(button => {
+        if (state === 'success') {
+            button.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+            button.disabled = false;
+        } else if (state === 'error') {
+            button.style.background = '#dc3545';
+            button.disabled = false;
+        }
+    });
+}
+
+// Show setup message for first-time users
+function showSetupMessage() {
+    const containers = ['meeting-calendar', 'training-calendar'];
+    
+    containers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.innerHTML = `
+                <div class="setup-message">
+                    <h3>🚀 Setup Required</h3>
+                    <p>To enable live sync, you need to:</p>
+                    <ol>
+                        <li>Set up Power Automate flows</li>
+                        <li>Create a GitHub Gist endpoint</li>
+                        <li>Update the CONFIG in app.js</li>
+                    </ol>
+                    <p><strong>Check the setup guides for detailed instructions!</strong></p>
+                    <p>The app will automatically refresh calendar data every 5 minutes once configured.</p>
+                </div>
+            `;
+        }
+    });
+}
+
+// Format last updated time
+function formatLastUpdated(timestamp) {
+    if (!timestamp || timestamp === 'never') {
+        return 'Never';
+    }
+    
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMinutes = Math.floor((now - date) / (1000 * 60));
+    
+    if (diffMinutes < 1) {
+        return 'Just now';
+    } else if (diffMinutes < 60) {
+        return `${diffMinutes} min ago`;
+    } else {
+        const diffHours = Math.floor(diffMinutes / 60);
+        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    }
+}
+
+// Removed import functionality - live sync only
+
+// All offline functionality removed - live sync only
 
 // Format date for display
 function formatDate(date) {

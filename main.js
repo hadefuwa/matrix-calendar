@@ -1,7 +1,6 @@
-// Matrix Calendar - Electron Main Process
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+// Matrix Calendar - Electron Main Process (Live Sync Only)
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const fs = require('fs');
 
 let mainWindow;
 
@@ -46,32 +45,4 @@ app.on('activate', () => {
     }
 });
 
-// Handle calendar file import
-ipcMain.handle('import-calendar-file', async () => {
-    try {
-        const result = await dialog.showOpenDialog(mainWindow, {
-            title: 'Select Calendar File',
-            filters: [
-                { name: 'Calendar Files', extensions: ['ics', 'ical'] },
-                { name: 'All Files', extensions: ['*'] }
-            ],
-            properties: ['openFile']
-        });
-
-        if (result.canceled) {
-            return null;
-        }
-
-        const filePath = result.filePaths[0];
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        
-        return {
-            fileName: path.basename(filePath),
-            content: fileContent,
-            filePath: filePath
-        };
-        
-    } catch (error) {
-        return { error: error.message };
-    }
-});
+// Live sync only - no file import needed

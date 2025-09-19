@@ -75,30 +75,34 @@ body {
     font-weight: 600;
 }
 
-.import-btn {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+/* Removed button-group - single sync button only */
+
+.sync-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
     color: white;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: all 0.2s ease;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
 }
 
-.import-btn:hover {
-    background: rgba(255,255,255,0.3);
-    border-color: rgba(255,255,255,0.5);
+.sync-btn:hover {
+    background: linear-gradient(135deg, #218838 0%, #1ba085 100%);
     transform: translateY(-1px);
 }
 
-.import-btn:disabled {
-    opacity: 0.6;
+.sync-btn:disabled {
+    background: #6c757d;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
+
+/* Removed import button styles - live sync only */
 
 /* Calendar Content */
 .calendar-content {
@@ -194,6 +198,28 @@ body {
     color: #888;
     font-style: italic;
     padding: 40px 20px;
+}
+
+.setup-message {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 20px;
+    color: #856404;
+}
+
+.setup-message h3 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.setup-message ol {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.setup-message li {
+    margin-bottom: 5px;
 }
 
 /* Instructions */
