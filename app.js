@@ -1,411 +1,216 @@
-// Simple PWA Calendar App - Main JavaScript File
+// Simple Calendar Import App - Clean and Simple
 
-// Wait for the page to load completely
+// Check if running in Electron
+const isElectron = typeof require !== 'undefined';
+let ipcRenderer;
+
+if (isElectron) {
+    const { ipcRenderer: electronIpc } = require('electron');
+    ipcRenderer = electronIpc;
+    console.log('Running in Electron');
+}
+
+// Start the app when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Calendar app is starting...');
-    
-    // Initialize the app
-    initializeApp();
-    
-    // Initialize navigation
-    initializeNavigation();
-    
-    // Initialize booking functionality
-    initializeBooking();
+    console.log('Matrix Calendar starting...');
+    setupImportButtons();
 });
 
-// Main function to start the app
-function initializeApp() {
-    // Hide loading indicator immediately
-    hideLoading();
+// Set up import button functionality
+function setupImportButtons() {
+    const importButtons = document.querySelectorAll('.import-btn');
     
-    // Set up PWA features
-    setupPWA();
-    
-    // Show calendars container by default and load calendars since it's the default tab
-    showCalendarsContainer();
-    loadCalendarsOnDemand();
-    
-    // Set up install prompt
-    setupInstallPrompt();
-}
-
-// Show loading spinner
-function showLoading() {
-    const loadingElement = document.getElementById('loading');
-    const calendarContainer = document.getElementById('calendar-container');
-    const errorMessage = document.getElementById('error-message');
-    
-    if (loadingElement) {
-        loadingElement.style.display = 'block';
-    }
-    if (calendarContainer) {
-        calendarContainer.style.display = 'none';
-    }
-    if (errorMessage) {
-        errorMessage.style.display = 'none';
-    }
-}
-
-// Hide loading indicator
-function hideLoading() {
-    const loadingElement = document.getElementById('loading');
-    if (loadingElement) {
-        loadingElement.style.display = 'none';
-    }
-}
-
-// Show calendars container (but don't load calendar content)
-function showCalendarsContainer() {
-    const calendarContainer = document.getElementById('calendar-container');
-    if (calendarContainer) {
-        calendarContainer.style.display = 'flex';
-    }
-}
-
-// Hide loading and show calendars (legacy function for compatibility)
-function showCalendars() {
-    hideLoading();
-    showCalendarsContainer();
-}
-
-// Show error message
-function showError() {
-    const loadingElement = document.getElementById('loading');
-    const calendarContainer = document.getElementById('calendar-container');
-    const errorMessage = document.getElementById('error-message');
-    
-    if (loadingElement) {
-        loadingElement.style.display = 'none';
-    }
-    if (calendarContainer) {
-        calendarContainer.style.display = 'none';
-    }
-    if (errorMessage) {
-        errorMessage.style.display = 'block';
-    }
-}
-
-// Load and display calendars
-function loadCalendars() {
-    console.log('Loading calendars...');
-    
-    // Get all calendar iframes
-    const calendar1 = document.getElementById('calendar1');
-    const calendar2 = document.getElementById('calendar2');
-    const calendar3 = document.getElementById('calendar3');
-    
-    // Counter to track loaded calendars
-    let loadedCount = 0;
-    const totalCalendars = 3;
-    
-    // Function to handle when a calendar loads
-    function onCalendarLoad() {
-        loadedCount++;
-        console.log('Calendar loaded:', loadedCount + '/' + totalCalendars);
-        
-        // If all calendars are loaded, show them
-        if (loadedCount === totalCalendars) {
-            showCalendars();
-        }
-    }
-    
-    // Function to handle calendar load errors
-    function onCalendarError() {
-        console.log('Error loading calendar');
-        // Even if some calendars fail, show what we can after timeout
-        setTimeout(function() {
-            if (loadedCount > 0) {
-                showCalendars();
-            } else {
-                showError();
-            }
-        }, 3000);
-    }
-    
-    // Set up event listeners for calendar iframes
-    if (calendar1) {
-        calendar1.addEventListener('load', onCalendarLoad);
-        calendar1.addEventListener('error', onCalendarError);
-    }
-    
-    if (calendar2) {
-        calendar2.addEventListener('load', onCalendarLoad);
-        calendar2.addEventListener('error', onCalendarError);
-    }
-    
-    if (calendar3) {
-        calendar3.addEventListener('load', onCalendarLoad);
-        calendar3.addEventListener('error', onCalendarError);
-    }
-    
-    // Fallback: show calendars after 10 seconds regardless
-    setTimeout(function() {
-        console.log('Timeout reached, showing calendars anyway');
-        showCalendars();
-    }, 10000);
-}
-
-// Set up PWA (Progressive Web App) features
-function setupPWA() {
-    // Register service worker if supported
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-            .then(function(registration) {
-                console.log('Service Worker registered successfully');
-            })
-            .catch(function(error) {
-                console.log('Service Worker registration failed:', error);
-            });
-    }
-}
-
-// Set up app install prompt
-function setupInstallPrompt() {
-    let deferredPrompt;
-    const installPrompt = document.getElementById('install-prompt');
-    const installButton = document.getElementById('install-button');
-    const dismissButton = document.getElementById('dismiss-install');
-    
-    // Listen for the beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', function(event) {
-        console.log('Install prompt available');
-        
-        // Prevent the default prompt
-        event.preventDefault();
-        
-        // Save the event for later use
-        deferredPrompt = event;
-        
-        // Show our custom install prompt
-        if (installPrompt) {
-            installPrompt.style.display = 'flex';
-        }
+    importButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const roomType = button.getAttribute('data-room');
+            importCalendar(roomType);
+        });
     });
+}
+
+// Import calendar for a room
+async function importCalendar(roomType) {
+    console.log('Importing calendar for:', roomType);
     
-    // Handle install button click
-    if (installButton) {
-        installButton.addEventListener('click', function() {
-            if (deferredPrompt) {
-                // Show the install prompt
-                deferredPrompt.prompt();
+    const button = document.querySelector(`[data-room="${roomType}"]`);
+    const originalText = button.textContent;
+    
+    // Show loading state
+    button.textContent = 'Importing...';
+    button.disabled = true;
+    
+    try {
+        if (isElectron && ipcRenderer) {
+            // Use Electron file picker
+            const result = await ipcRenderer.invoke('import-calendar-file');
+            
+            if (result && result.content) {
+                const events = parseICSFile(result.content);
+                displayEvents(roomType, events, result.fileName);
                 
-                // Wait for user choice
-                deferredPrompt.userChoice.then(function(choiceResult) {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    
-                    // Clear the prompt
-                    deferredPrompt = null;
-                    
-                    // Hide our prompt
-                    if (installPrompt) {
-                        installPrompt.style.display = 'none';
-                    }
-                });
+                button.textContent = '✅ Imported';
+                button.style.backgroundColor = '#4CAF50';
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    button.style.backgroundColor = '';
+                }, 3000);
+            } else {
+                // User cancelled or error
+                button.textContent = originalText;
+                button.disabled = false;
             }
-        });
-    }
-    
-    // Handle dismiss button click
-    if (dismissButton) {
-        dismissButton.addEventListener('click', function() {
-            if (installPrompt) {
-                installPrompt.style.display = 'none';
-            }
-        });
-    }
-    
-    // Hide install prompt if app is already installed
-    window.addEventListener('appinstalled', function() {
-        console.log('App was installed');
-        if (installPrompt) {
-            installPrompt.style.display = 'none';
-        }
-    });
-}
-
-// Handle online/offline status
-window.addEventListener('online', function() {
-    console.log('App is online');
-    // Reload calendars when coming back online
-    location.reload();
-});
-
-window.addEventListener('offline', function() {
-    console.log('App is offline');
-    // You could show an offline message here if needed
-});
-
-// Simple error handling for the whole app
-window.addEventListener('error', function(error) {
-    console.log('App error:', error);
-    // Don't show error for minor issues, just log them
-});
-
-// Handle page visibility changes (when user switches tabs)
-document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-        console.log('Page is visible again');
-        // You could refresh calendars here if needed
-    }
-});
-
-// Navigation functionality
-function initializeNavigation() {
-    const navTabs = document.querySelectorAll('.nav-tab');
-    const calendarContainer = document.getElementById('calendar-container');
-    const bookingContainer = document.getElementById('booking-container');
-    
-    navTabs.forEach(function(tab) {
-        tab.addEventListener('click', function() {
-            const tabType = tab.getAttribute('data-tab');
-            
-            // Remove active class from all tabs
-            navTabs.forEach(function(t) { t.classList.remove('active'); });
-            
-            // Add active class to clicked tab
-            tab.classList.add('active');
-            
-            // Show/hide containers
-            if (tabType === 'calendars') {
-                calendarContainer.style.display = 'flex';
-                bookingContainer.style.display = 'none';
-            } else if (tabType === 'booking') {
-                calendarContainer.style.display = 'none';
-                bookingContainer.style.display = 'block';
-            }
-        });
-    });
-}
-
-// Load calendars when switching to calendar tab
-function loadCalendarsOnDemand() {
-    console.log('Loading calendars on demand...');
-    const calendars = [
-        { id: 'calendar1', dataAttr: 'data-src' },
-        { id: 'calendar2', dataAttr: 'data-src' },
-        { id: 'calendar3', dataAttr: 'data-src' }
-    ];
-    
-    calendars.forEach(function(cal) {
-        const iframe = document.getElementById(cal.id);
-        if (iframe && iframe.getAttribute(cal.dataAttr)) {
-            const src = iframe.getAttribute(cal.dataAttr);
-            console.log('Loading calendar:', cal.id, 'with src:', src);
-            iframe.src = src;
-            iframe.removeAttribute(cal.dataAttr);
         } else {
-            console.log('Calendar iframe not found or already loaded:', cal.id);
+            // Web version - show instructions
+            alert('Please use the desktop version to import calendar files.');
+            button.textContent = originalText;
+            button.disabled = false;
         }
-    });
+        
+    } catch (error) {
+        console.error('Import failed:', error);
+        alert('Import failed: ' + error.message);
+        button.textContent = originalText;
+        button.disabled = false;
+    }
 }
 
-// Booking functionality
-function initializeBooking() {
-    const bookingButtons = document.querySelectorAll('.booking-btn');
-    const roomButtons = document.querySelectorAll('.room-btn');
-    let selectedRoom = 'meeting';
-    let countdownInterval;
+// Simple ICS parser
+function parseICSFile(icsContent) {
+    const events = [];
+    const lines = icsContent.split('\n');
+    let currentEvent = null;
     
-    // Handle booking button clicks
-    bookingButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            const duration = parseInt(button.getAttribute('data-duration'));
-            bookRoom(selectedRoom, duration);
-        });
-    });
+    for (let line of lines) {
+        line = line.trim();
+        
+        if (line === 'BEGIN:VEVENT') {
+            currentEvent = {};
+        } else if (line === 'END:VEVENT' && currentEvent) {
+            if (currentEvent.summary && currentEvent.dtstart) {
+                events.push(currentEvent);
+            }
+            currentEvent = null;
+        } else if (currentEvent) {
+            if (line.startsWith('SUMMARY:')) {
+                currentEvent.summary = line.substring(8);
+            } else if (line.startsWith('DTSTART')) {
+                const match = line.match(/DTSTART[^:]*:(.+)/);
+                if (match) {
+                    currentEvent.dtstart = parseICSDate(match[1]);
+                }
+            } else if (line.startsWith('DTEND')) {
+                const match = line.match(/DTEND[^:]*:(.+)/);
+                if (match) {
+                    currentEvent.dtend = parseICSDate(match[1]);
+                }
+            } else if (line.startsWith('LOCATION:')) {
+                currentEvent.location = line.substring(9);
+            }
+        }
+    }
     
-    // Handle room selection
-    roomButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            roomButtons.forEach(function(btn) { btn.classList.remove('active'); });
-            button.classList.add('active');
+    return events;
+}
+
+// Parse ICS date format
+function parseICSDate(icsDate) {
+    icsDate = icsDate.replace(/[TZ]/g, '');
+    
+    if (icsDate.length >= 8) {
+        const year = icsDate.substring(0, 4);
+        const month = icsDate.substring(4, 6);
+        const day = icsDate.substring(6, 8);
+        const hour = icsDate.substring(8, 10) || '00';
+        const minute = icsDate.substring(10, 12) || '00';
+        
+        return new Date(year, month - 1, day, hour, minute);
+    }
+    
+    return new Date();
+}
+
+// Display events for a room
+function displayEvents(roomType, events, fileName) {
+    const container = document.getElementById(roomType + '-calendar');
+    if (!container) return;
+    
+    // Sort events by date
+    events.sort((a, b) => a.dtstart - b.dtstart);
+    
+    // Filter for next 7 days
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const upcomingEvents = events.filter(event => 
+        event.dtstart >= today && event.dtstart <= nextWeek
+    );
+    
+    // Create HTML
+    let html = `
+        <div class="file-info">
+            <strong>📁 ${fileName}</strong>
+            <span>${upcomingEvents.length} upcoming events</span>
+        </div>
+    `;
+    
+    if (upcomingEvents.length === 0) {
+        html += '<div class="no-events">No events in the next 7 days</div>';
+    } else {
+        html += '<div class="events-list">';
+        upcomingEvents.forEach(event => {
+            const date = formatDate(event.dtstart);
+            const time = formatTime(event.dtstart);
+            const endTime = event.dtend ? formatTime(event.dtend) : '';
             
-            selectedRoom = button.getAttribute('data-room');
-            updateSelectedRoomName(selectedRoom);
+            html += `
+                <div class="event">
+                    <div class="event-date">${date}</div>
+                    <div class="event-time">${time}${endTime ? ' - ' + endTime : ''}</div>
+                    <div class="event-title">${escapeHtml(event.summary)}</div>
+                    ${event.location ? `<div class="event-location">📍 ${escapeHtml(event.location)}</div>` : ''}
+                </div>
+            `;
         });
+        html += '</div>';
+    }
+    
+    container.innerHTML = html;
+}
+
+// Format date for display
+function formatDate(date) {
+    const today = new Date();
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    
+    if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+    } else {
+        return date.toLocaleDateString('en-US', { 
+            weekday: 'short', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+    }
+}
+
+// Format time for display
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
     });
-    
-    // Start countdown timer
-    startCountdownTimer();
 }
 
-function bookRoom(room, duration) {
-    const roomNames = {
-        'meeting': 'Meeting Room',
-        'training': 'Training Room',
-        'dev': 'Dev Room'
-    };
-    
-    const roomName = roomNames[room];
-    const endTime = new Date(Date.now() + (duration * 60 * 1000));
-    
-    // Show booking confirmation
-    alert('Booked ' + roomName + ' for ' + duration + ' minutes until ' + endTime.toLocaleTimeString());
-    
-    // Update countdown with new booking
-    updateCountdownWithBooking(endTime);
+// Escape HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
-function updateSelectedRoomName(room) {
-    const roomNames = {
-        'meeting': 'Meeting Room',
-        'training': 'Training Room',
-        'dev': 'Dev Room'
-    };
-    
-    const selectedRoomNameElement = document.getElementById('selected-room-name');
-    if (selectedRoomNameElement) {
-        selectedRoomNameElement.textContent = roomNames[room];
-    }
-}
-
-function startCountdownTimer() {
-    // Default to next hour for demo
-    const nextHour = new Date();
-    nextHour.setHours(nextHour.getHours() + 1);
-    nextHour.setMinutes(0);
-    nextHour.setSeconds(0);
-    
-    updateCountdownDisplay(nextHour);
-    
-    countdownInterval = setInterval(function() {
-        updateCountdownDisplay(nextHour);
-    }, 1000);
-}
-
-function updateCountdownWithBooking(endTime) {
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-    }
-    
-    countdownInterval = setInterval(function() {
-        updateCountdownDisplay(endTime);
-    }, 1000);
-}
-
-function updateCountdownDisplay(targetTime) {
-    const now = new Date();
-    const timeDiff = targetTime - now;
-    
-    if (timeDiff <= 0) {
-        document.getElementById('countdown-hours').textContent = '00';
-        document.getElementById('countdown-minutes').textContent = '00';
-        document.getElementById('countdown-seconds').textContent = '00';
-        return;
-    }
-    
-    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-    
-    document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
-}
-
-console.log('App JavaScript loaded successfully');
+console.log('Matrix Calendar loaded');

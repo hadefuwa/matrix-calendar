@@ -1,0 +1,43 @@
+{
+  "name": "matrix-calendar",
+  "version": "1.0.0",
+  "description": "A desktop calendar app for viewing multiple Outlook calendars",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build-win": "electron-builder --win",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "calendar",
+    "outlook",
+    "electron",
+    "desktop"
+  ],
+  "author": "Matrix Calendar",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "ical": "^0.8.0"
+  },
+  "build": {
+    "appId": "com.matrix.calendar",
+    "productName": "Matrix Calendar",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules",
+      "!dist"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/matrix-logo.png"
+    }
+  }
+}

@@ -1,4 +1,5 @@
-/* Reset and base styles */
+/* Matrix Calendar - Clean and Simple Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,660 +8,237 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: 
-        radial-gradient(ellipse at top, #7c3aed 0%, #a855f7 20%, #c084fc 40%, #ddd6fe 60%, #7c3aed 80%, #4c1d95 100%),
-        radial-gradient(ellipse at bottom right, #6366f1 0%, #8b5cf6 30%, #a855f7 60%, #c084fc 100%),
-        linear-gradient(45deg, #4c1d95 0%, #7c3aed 25%, #a855f7 50%, #c084fc 75%, #ddd6fe 100%),
-        linear-gradient(-45deg, #6366f1 0%, #8b5cf6 25%, #a855f7 50%, #c084fc 75%, #e879f9 100%);
-    background-size: 300% 300%, 250% 250%, 400% 400%, 350% 350%;
-    animation: galaxyShift 15s ease-in-out infinite, galaxyPulse 8s ease-in-out infinite alternate;
-    color: #fff;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: relative;
-}
-
-/* Galaxy background animations */
-@keyframes galaxyShift {
-    0% { 
-        background-position: 0% 50%, 0% 0%, 0% 0%, 100% 100%; 
-    }
-    25% { 
-        background-position: 100% 50%, 50% 50%, 25% 25%, 75% 25%; 
-    }
-    50% { 
-        background-position: 50% 100%, 100% 100%, 50% 50%, 25% 75%; 
-    }
-    75% { 
-        background-position: 25% 25%, 25% 75%, 75% 75%, 50% 0%; 
-    }
-    100% { 
-        background-position: 0% 50%, 0% 0%, 0% 0%, 100% 100%; 
-    }
-}
-
-@keyframes galaxyPulse {
-    0% {
-        filter: brightness(1) contrast(1) saturate(1.2);
-    }
-    100% {
-        filter: brightness(1.3) contrast(1.2) saturate(1.5);
-    }
-}
-
-/* Shooting stars */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: -1;
-    animation: shootingStars 3s linear infinite;
-}
-
-/* Enhanced shooting star layers */
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(3px 3px at 20px 30px, #ffffff, transparent),
-        radial-gradient(4px 4px at 40px 70px, #a855f7, transparent),
-        radial-gradient(2px 2px at 90px 40px, #c084fc, transparent),
-        radial-gradient(3px 3px at 130px 80px, #ddd6fe, transparent),
-        radial-gradient(4px 4px at 160px 30px, #e879f9, transparent),
-        radial-gradient(2px 2px at 60px 120px, #ffffff, transparent),
-        radial-gradient(3px 3px at 180px 60px, #7c3aed, transparent),
-        radial-gradient(2px 2px at 10px 90px, #c084fc, transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: shootingStarsMove 12s linear infinite;
-    z-index: -1;
-    opacity: 0.9;
-}
-
-@keyframes shootingStars {
-    0% { 
-        transform: translateX(-100px) translateY(-100px); 
-        opacity: 0;
-    }
-    10% { 
-        opacity: 1;
-    }
-    90% { 
-        opacity: 1;
-    }
-    100% { 
-        transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px)); 
-        opacity: 0;
-    }
-}
-
-@keyframes shootingStarsMove {
-    0% { 
-        transform: translate(0, 0);
-    }
-    100% { 
-        transform: translate(-200px, -100px);
-    }
-}
-
-/* App container - full height, no spacing */
-.app-container {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Top Navigation */
-.top-navigation {
-    background: rgba(30, 27, 75, 0.95);
-    border-bottom: 2px solid rgba(139, 92, 246, 0.3);
-    padding: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-}
-
-.nav-tabs {
-    display: flex;
-    max-width: 100%;
-}
-
-.nav-tab {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.7);
-    padding: 15px 20px;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent;
-}
-
-.nav-tab:hover {
-    color: #fff;
-    background: rgba(139, 92, 246, 0.2);
-}
-
-.nav-tab.active {
-    color: #fff;
-    background: rgba(139, 92, 246, 0.3);
-    border-bottom-color: #a855f7;
-}
-
-/* Glowing Matrix logo at bottom */
-.app-container::after {
-    content: '';
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 150px;
-    height: 150px;
-    background: url('assets/matrix-logo.png') center center no-repeat;
-    background-size: contain;
-    opacity: 1;
-    z-index: 1000;
-    pointer-events: none;
-    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)) 
-            drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))
-            drop-shadow(0 0 60px rgba(139, 92, 246, 0.4));
-    animation: logoGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes logoGlow {
-    0% {
-        filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)) 
-                drop-shadow(0 0 40px rgba(255, 255, 255, 0.6))
-                drop-shadow(0 0 60px rgba(139, 92, 246, 0.4));
-        transform: scale(1);
-    }
-    100% {
-        filter: drop-shadow(0 0 30px rgba(139, 92, 246, 1)) 
-                drop-shadow(0 0 60px rgba(255, 255, 255, 0.9))
-                drop-shadow(0 0 90px rgba(139, 92, 246, 0.6))
-                drop-shadow(0 0 120px rgba(147, 51, 234, 0.4));
-        transform: scale(1.05);
-    }
-}
-
-/* Loading spinner - dark theme */
-.loading {
-    text-align: center;
-    padding: 50px;
-    color: #fff;
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #444;
-    border-top: 4px solid #0078d4;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Calendar table layout - proper height distribution */
-#calendar-container {
-    flex: 1;
-    overflow: hidden;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 60px);
-    min-height: 0;
-}
-
-.calendar-table {
-    width: 100%;
-    height: 100%;
-    border-collapse: separate;
-    border-spacing: 10px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    table-layout: fixed;
-}
-
-.calendar-cell {
-    width: 33.33%;
-    height: 100%;
-    vertical-align: top;
-    padding: 0;
-}
-
-/* Individual calendar section - galaxy theme with proper height */
-.calendar-section {
-    background: rgba(30, 27, 75, 0.85);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, border-color 0.3s ease;
-    height: calc(100vh - 100px);
-    min-height: 600px;
-    display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(2px);
-}
-
-.calendar-section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(139, 92, 246, 0.2);
-    background: rgba(30, 27, 75, 0.95);
-    border-color: rgba(139, 92, 246, 0.5);
-}
-
-.calendar-section h2 {
-    color: white;
-    padding: 15px 20px;
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 500;
-}
-
-/* Different colors for each calendar header */
-.meeting-room h2 {
-    background: #0078d4; /* Microsoft Blue */
-}
-
-.training-room h2 {
-    background: #107c10; /* Microsoft Green */
-}
-
-.dev-room h2 {
-    background: #d83b01; /* Microsoft Orange */
-}
-
-/* Booking Container - perfectly centered and responsive */
-.booking-container {
-    flex: 1;
-    padding: 20px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.booking-content {
-    text-align: center;
-    max-width: min(900px, 100vw - 40px);
-    width: 100%;
-    max-height: calc(100vh - 120px);
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: clamp(20px, 4vw, 40px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    overflow-y: auto;
-    box-sizing: border-box;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.booking-content h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
-    margin-bottom: clamp(15px, 4vw, 30px);
-    color: #1a1a1a;
-    font-weight: bold;
-}
-
-/* Booking Buttons */
-.booking-buttons {
-    display: flex;
-    gap: clamp(15px, 4vw, 30px);
-    justify-content: center;
-    align-items: center;
-    margin-bottom: clamp(25px, 6vw, 50px);
-    flex-wrap: wrap;
-    width: 100%;
-}
-
-.booking-btn {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    padding: clamp(20px, 4vw, 30px) clamp(25px, 5vw, 40px);
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: clamp(120px, 20vw, 150px);
-    flex: 1;
-    max-width: 200px;
-}
-
-.booking-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
-    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
-}
-
-.booking-btn:active {
-    transform: translateY(-2px);
-}
-
-.btn-time {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 900;
-    margin-bottom: 5px;
-}
-
-.btn-label {
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    opacity: 0.9;
-}
-
-/* Room Selector */
-.room-selector {
-    margin-bottom: clamp(25px, 6vw, 50px);
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.room-selector h3 {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    margin-bottom: clamp(15px, 3vw, 20px);
-    color: #1a1a1a;
-    font-weight: 600;
-}
-
-.room-buttons {
-    display: flex;
-    gap: clamp(10px, 2vw, 15px);
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.room-btn {
-    background: rgba(248, 248, 248, 0.9);
-    border: 2px solid #ddd;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
     color: #333;
-    padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
 }
 
-.room-btn:hover {
-    border-color: #7c3aed;
-    background: rgba(124, 58, 237, 0.1);
-    color: #1a1a1a;
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
 }
 
-.room-btn.active {
-    background: #7c3aed;
-    border-color: #7c3aed;
-    color: white;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-}
-
-/* Countdown Section */
-.countdown-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.countdown-section h2 {
-    font-size: clamp(1.4rem, 3.5vw, 1.8rem);
-    margin-bottom: clamp(15px, 3vw, 20px);
-    color: #1a1a1a;
-    font-weight: 600;
+/* Header */
+.app-header {
     text-align: center;
+    margin-bottom: 30px;
+    color: white;
 }
 
-.countdown-display {
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid #e5e5e5;
-    border-radius: 15px;
-    padding: clamp(20px, 4vw, 30px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-}
-
-.countdown-time {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: bold;
-    color: #7c3aed;
+.app-header h1 {
+    font-size: 2.5rem;
     margin-bottom: 10px;
-    font-family: 'Courier New', monospace;
-    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.countdown-label {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: #444;
+.app-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
-#selected-room-name {
-    color: #7c3aed;
-    font-weight: bold;
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
 }
 
-/* Calendar frame - flexible height */
-.calendar-frame {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    overflow: hidden;
-}
-
-.calendar-frame iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-}
-
-/* Error message - dark theme */
-.error-message {
-    text-align: center;
-    padding: 50px;
-    background: rgba(40, 40, 40, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 20px;
-    color: #fff;
-}
-
-.error-message h2 {
-    color: #ff6b6b;
-    margin-bottom: 15px;
-}
-
-.retry-button {
-    background: #0078d4;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 15px;
-    transition: background-color 0.2s ease;
-}
-
-.retry-button:hover {
-    background: #106ebe;
-}
-
-/* Install prompt */
-.install-prompt {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #0078d4;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    z-index: 1000;
-    max-width: 90%;
-}
-
-.install-button {
+/* Calendar Cards */
+.calendar-card {
     background: white;
-    color: #0078d4;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.install-button:hover {
-    background: #f0f0f0;
+.calendar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
 }
 
-.dismiss-button {
-    background: none;
-    border: none;
+/* Card Header */
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
+    padding: 20px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+}
+
+.card-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.import-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.import-btn:hover {
+    background: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.5);
+    transform: translateY(-1px);
+}
+
+.import-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Calendar Content */
+.calendar-content {
+    padding: 25px;
+    min-height: 300px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: #666;
+    padding: 40px 20px;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.empty-state small {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* File Info */
+.file-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #667eea;
+}
+
+.file-info strong {
+    color: #333;
+}
+
+.file-info span {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Events List */
+.events-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.event {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
     transition: background-color 0.2s ease;
 }
 
-.dismiss-button:hover {
-    background: rgba(255, 255, 255, 0.2);
+.event:hover {
+    background: #e9ecef;
 }
 
-/* Desktop and tablet - side by side table layout */
-@media (min-width: 481px) {
-    .calendar-table {
-        border-spacing: 15px;
+.event-date {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.event-time {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.event-title {
+    color: #333;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.event-location {
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.no-events {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 40px 20px;
+}
+
+/* Instructions */
+.instructions {
+    background: rgba(255,255,255,0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.instructions h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.instructions ol {
+    color: #666;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+.instructions li {
+    margin-bottom: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .app-container {
         padding: 15px;
     }
-}
-
-/* Large desktop - bigger spacing */
-@media (min-width: 1200px) {
-    .calendar-table {
-        border-spacing: 20px;
-        padding: 20px;
-    }
-}
-
-/* Mobile - stack calendars vertically */
-@media (max-width: 480px) {
-    .calendar-table {
-        border-spacing: 5px;
-        padding: 5px;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
     
-    .calendar-table tr {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    
-    .calendar-cell {
-        display: block;
-        width: 100%;
-        height: 33.33%;
-        margin-bottom: 5px;
-    }
-    
-    /* Mobile booking adjustments */
-    .booking-container {
-        padding: 10px;
-    }
-    
-    .booking-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .booking-btn {
-        width: 100%;
-        max-width: 280px;
-    }
-    
-    .room-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .room-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-    
-    .install-prompt {
-        bottom: 10px;
-        padding: 12px 15px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Print styles */
-@media print {
-    .install-prompt,
-    .loading,
-    .error-message {
-        display: none !important;
-    }
-    
-    .calendar-container {
+    .calendar-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .calendar-frame {
-        height: auto;
-        min-height: 600px;
+    .card-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .app-header h1 {
+        font-size: 2rem;
     }
 }
