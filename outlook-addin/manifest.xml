@@ -14,8 +14,8 @@
   <!-- Add-in Display Information -->
   <DisplayName DefaultValue="Matrix Calendar"/>
   <Description DefaultValue="View meeting room calendars in a convenient side panel"/>
-  <IconUrl DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/assets/icon-64.png"/>
+  <IconUrl DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://github.com/your-username/matrix-calendar-addin"/>
 
   <!-- Supported Outlook Clients -->
@@ -34,7 +34,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/index.html"/>
+        <SourceLocation DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/index.html"/>
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -121,13 +121,13 @@
     <!-- Resources -->
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/assets/icon-80.png"/>
       </bt:Images>
       
       <bt:Urls>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://your-github-username.github.io/matrix-calendar-addin/index.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://hadefuwa.github.io/matrix-calendar/outlook-addin/index.html"/>
       </bt:Urls>
       
       <bt:ShortStrings>
