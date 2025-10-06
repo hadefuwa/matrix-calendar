@@ -106,8 +106,8 @@ body {
 
 /* Calendar Content */
 .calendar-content {
-    padding: 25px;
-    min-height: 550px;
+    padding: 20px;
+    min-height: 600px;
     position: relative;
 }
 
@@ -255,30 +255,6 @@ body {
     margin-bottom: 5px;
 }
 
-/* Instructions */
-.instructions {
-    background: rgba(255,255,255,0.95);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-}
-
-.instructions h3 {
-    color: #333;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-.instructions ol {
-    color: #666;
-    padding-left: 20px;
-    line-height: 1.6;
-}
-
-.instructions li {
-    margin-bottom: 8px;
-}
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
