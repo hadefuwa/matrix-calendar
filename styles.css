@@ -8,18 +8,22 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    background: 
+        radial-gradient(ellipse at top, #1a0b2e 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, #16213e 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
     height: 100vh;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    color: #e2e8f0;
+    color: #f8fafc;
 }
 
 .app-container {
-    max-width: 1200px;
+    max-width: 95vw;
+    width: 90%;
     margin: 0 auto;
-    padding: 10px;
+    padding: 8px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -34,19 +38,21 @@ body {
 }
 
 .app-header .logo {
-    max-height: 40px;
+    max-height: 42px;
     width: auto;
     filter: 
-        drop-shadow(0 4px 8px rgba(0,0,0,0.4))
-        drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        drop-shadow(0 6px 12px rgba(0,0,0,0.5))
+        drop-shadow(0 0 24px rgba(99, 102, 241, 0.4))
+        drop-shadow(0 0 40px rgba(139, 92, 246, 0.2));
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .app-header .logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.08) translateY(-2px);
     filter: 
-        drop-shadow(0 6px 12px rgba(0,0,0,0.5))
-        drop-shadow(0 0 30px rgba(99, 102, 241, 0.5));
+        drop-shadow(0 8px 16px rgba(0,0,0,0.6))
+        drop-shadow(0 0 32px rgba(99, 102, 241, 0.6))
+        drop-shadow(0 0 48px rgba(139, 92, 246, 0.4));
 }
 
 /* Calendar Grid */
@@ -60,15 +66,16 @@ body {
 
 /* Calendar Cards */
 .calendar-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -82,28 +89,49 @@ body {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    z-index: 1;
+}
+
+.calendar-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(139, 92, 246, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
 .calendar-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px) scale(1.01);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
+        0 32px 64px rgba(0, 0, 0, 0.5),
+        0 8px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(99, 102, 241, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.calendar-card:hover::after {
+    opacity: 1;
 }
 
 /* Card Header */
 .card-header {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #a855f7 50%, #c084fc 75%, #e879f9 100%);
     color: white;
-    padding: 12px 24px;
+    padding: 14px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-header::before {
@@ -113,19 +141,32 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.6s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-header:hover::before {
     left: 100%;
 }
 
+.card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
 .card-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 0.5px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.8px;
+    position: relative;
+    z-index: 2;
 }
 
 /* Removed button-group - single sync button only */
@@ -159,11 +200,11 @@ body {
 
 /* Calendar Content */
 .calendar-content {
-    padding: 16px;
+    padding: 20px;
     flex: 1;
     position: relative;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.01);
 }
 
 /* Loading Indicator */
@@ -177,14 +218,17 @@ body {
 }
 
 .loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top: 3px solid #6366f1;
+    width: 44px;
+    height: 44px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-top: 2px solid #6366f1;
+    border-right: 2px solid #8b5cf6;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
     margin: 0 auto 15px;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 
+        0 0 24px rgba(99, 102, 241, 0.4),
+        0 0 40px rgba(139, 92, 246, 0.2);
 }
 
 @keyframes spin {
@@ -196,13 +240,23 @@ body {
 .calendar-content iframe {
     border-radius: 12px;
     box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     width: 100%;
     height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px) saturate(120%);
+    transition: all 0.3s ease;
+}
+
+.calendar-content iframe:hover {
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(99, 102, 241, 0.2);
 }
 
 /* Empty State */
@@ -321,27 +375,63 @@ body {
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .app-container {
-        padding: 5px;
+        width: 95%;
+        max-width: 95vw;
+        padding: 6px;
     }
     
     .calendar-grid {
-        gap: 5px;
+        gap: 8px;
+    }
+    
+    .calendar-content {
+        padding: 12px;
     }
     
     .card-header {
-        padding: 8px 15px;
+        padding: 10px 18px;
+    }
+    
+    .card-header h2 {
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .app-header .logo {
+        max-height: 32px;
+    }
+    
+    .app-header {
+        margin-bottom: 6px;
+        padding: 3px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        width: 98%;
+        max-width: 98vw;
+        padding: 4px;
+    }
+    
+    .calendar-grid {
+        gap: 6px;
+    }
+    
+    .calendar-content {
+        padding: 8px;
+    }
+    
+    .card-header {
+        padding: 8px 12px;
     }
     
     .card-header h2 {
         font-size: 1rem;
+        letter-spacing: 0.3px;
     }
     
     .app-header .logo {
-        max-height: 30px;
-    }
-    
-    .app-header {
-        margin-bottom: 5px;
-        padding: 2px 0;
+        max-height: 28px;
     }
 }
